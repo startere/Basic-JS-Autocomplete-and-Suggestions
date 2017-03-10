@@ -14,12 +14,41 @@ function solve() {
         var suggestionAs = selectedElement.getElementsByClassName("suggestion-link");
 
         var suggLiTemplate = document.createElement("li");
-            suggLiTemplate.className = "suggestion";
+        suggLiTemplate.className = "suggestion";
 
         var suggATemplate = document.createElement("a");
-            suggATemplate.className = "suggestion-link";
+        suggATemplate.className = "suggestion-link";
 
-            suggLiTemplate.appendChild(suggATemplate);
+        suggLiTemplate.appendChild(suggATemplate);
+
+        suggestionsArray = suggestionsArray || [];
+
+        for (var i = 0; i < suggestionsArray.length; i++) {
+            var currSugg = suggestionsArray[i];
+
+            var existingSuggs = selectedElement.getElementsByClassName("suggestion-link");
+
+            var suggAlreadyAdded = false;
+
+            if (existingSuggs[0] !== undefined) {
+                for (var i = 0; i < existingSuggs.length; i++) {
+                    if (currSugg.toLowerCase() === existingSuggs[i].innerHTML.toLowerCase()) {
+                        suggAlreadyAdded = true;
+                    }
+                };
+            }
+
+            if (suggAlreadyAdded === false) {
+                suggATemplate.innerHTML = currSugg;
+
+                var newSuggLi = suggLiTemplate.cloneNode(true);
+
+                newSuggLi.style.display = "none";
+
+                suggUl.appendChild(newSuggLi);
+            }
+
+        }
 
         addBtn.addEventListener("click", function (event) {
 
